@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         time: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         date: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     })
     return Care;
