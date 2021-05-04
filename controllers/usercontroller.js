@@ -5,6 +5,7 @@ let router = express.Router();
 const User = require('../db').import('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const validateSession = require('../middleware/validate-session');
 // const validateSession = require ('../middleware/validate-session');
 
 router.post('/register', function(req, res) {
@@ -62,14 +63,14 @@ router.post('/login', function (req, res) {
     .catch(err => res.status(500).json({error: err}));
 })
 
-router.post('/create/:role', function(req, res) {
+router.post('/create/:role', validateSession, function(req, res) {
     User.create({
         email: req.body.email,
         passwordhash: bcrypt.hashSync(req.body.password, 13),
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         role: req.params.role,
-        // infantId: req.body.infantId,
+        infantId: req.user.infantId,
     })
     .then(
             function createSuccess(user) {
@@ -100,6 +101,22 @@ router.put('/update/:id', function(req, res) {
     .catch(err => res.status(500).json({error:err}))
     
 });
+
+// Get all users
+router.get('/allusers', function (req, res) {
+    User.findAll()
+    .then(users => res.status(200).json(users))
+    .catch(err => res.status(500).json({ error: err }));
+})
+
+router.get('/current', validateSession, function (req, res) {
+        // console.log(req.user.id);
+        User.findOne({
+            where: { id: req.user.id }
+        })
+        .then(user => res.status(200).json(user))
+        .catch(err => res.status(500).json({ error: err }));
+    })
 
 // router.post('/signup', function (req, res) {
 //     User.create({

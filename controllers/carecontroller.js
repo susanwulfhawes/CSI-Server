@@ -54,6 +54,13 @@ router.post('/create', validateSession, function(req, res) {
             .catch(err => res.status(500).json({ error: err }));
 });
 
+// Get all cares
+router.get('/allcares', function (req, res) {
+    Care.findAll()
+    .then(cares => res.status(200).json(cares))
+    .catch(err => res.status(500).json({ error: err }));
+})
+
 router.put('/update/:id', function(req, res) {
     const updateCare = {
         care: req.body.care,
