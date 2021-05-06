@@ -109,6 +109,14 @@ router.get('/allusers', function (req, res) {
     .catch(err => res.status(500).json({ error: err }));
 })
 
+router.get('/userbyid/:id', function (req, res) {
+    User.findOne({
+        where: { id: req.params.id }
+    })
+    .then(user => res.status(200).json(user))
+    .catch(err => res.status(500).json({ error: err }));
+})
+
 router.get('/current', validateSession, function (req, res) {
         // console.log(req.user.id);
         User.findOne({
