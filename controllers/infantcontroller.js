@@ -33,4 +33,26 @@ router.post('/register', validateSession, function(req, res) {
             .catch(err => res.status(500).json({ error: err }));
 });
 
+router.get('/infantbyid/:id', function (req, res) {
+    Infant.findOne({
+        where: { id: req.params.id }
+    })
+    .then(infant => res.status(200).json(infant))
+    .catch(err => res.status(500).json({ error: err }));
+})
+
+router.post('/update/:id', function(req, res) {
+    const updateInfant = {
+        babyname: req.body.babyname,
+        parentname: req.body.parentname,
+        contactnumber: req.body.contactnumber,
+       }
+
+    const query = {where: {id: req.params.id}}
+    Infant.update(updateInfant, query)
+    .then(infant => res.status(200).json(infant))
+    .catch(err => res.status(500).json({error:err}))
+    
+});
+
 module.exports = router;
