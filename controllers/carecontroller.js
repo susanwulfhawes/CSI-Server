@@ -61,17 +61,26 @@ router.get('/allcares', function (req, res) {
     .catch(err => res.status(500).json({ error: err }));
 })
 
-router.put('/update/:id', function(req, res) {
+router.get('/carebyid/:id', function (req, res){
+    Care.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(care => res.status(200).json(care))
+    .catch(err => res.status(500).json({ error: err }));
+})
+
+router.post('/update/:id', function(req, res) {
     const updateCare = {
         care: req.body.care,
         type: req.body.type,
         amount: req.body.amount,
-        time: req.body.time,
-        date: req.body.date
+        // time: req.body.time,
+        // date: req.body.date
     }
 
     const query = {where: {id: req.params.id}}
-
     Care.update(updateCare, query)
     .then(care => res.status(200).json(care))
     .catch(err => res.status(500).json({error:err}))
