@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
  //require('dotenv').config();
 const app = express();
@@ -49,6 +50,6 @@ app.use('/care', care);
 //     });
 // })
 
-app.listen(3000, function(){
+app.listen(process.env.PORT, function(){
     console.log('The app is on port 3000');
 });
