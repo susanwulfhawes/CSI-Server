@@ -1,0 +1,10 @@
+heroku create careshareinfant-server-shawes
+
+heroku addons:create heroku-postgresql:hobby-dev --app careshareinfant-server-shawes
+
+git add . 
+git commit -m "heroku deployment"
+git push heroku master
+
+
+3676c85ceb3490900caf397c4f64ca4e3303756ed3c8c935c287ddc5988ed49d
